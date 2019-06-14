@@ -4,40 +4,39 @@ import json
 
 
 
-with open('text.json', 'r') as text:
+with open('new.json', 'r') as text:
     text_dict = json.load(text)
 
-for text in text_dict:
-	# Getting msg in json
-    msg1 = 	text["text8"]
+# Getting msg
+def getMsg(msgs):
+	for text in text_dict:
+		if text['id'] == msgs:
+			msgs = text["text"]
+			# print (text["text"])
+
+	return msgs
+
 
 driver = webdriver.Chrome("C:\\Chrome\\chromedriver.exe")
 driver.get('https://web.whatsapp.com/send?phone=')
-											#  ^ Number goes here 
+# Config the browser driver, and link to target							
 
 
 #Scan the code before proceeding further
 input('Enter anything after scanning QR code to send messages')
+# Input the number
 
-# Get the class from msg box
+count = 1
+
 msg_box = driver.find_element_by_class_name('_1PRhq')
-# chat_bubble = driver.find_element_by_class_name('-N6Gq')
-
-# print("reading chat",chat_bubble)
-def chooseMsg(choice):
-	switcher = {
-		1: msg1
-	}
-	return switcher.get(choice, "Invalid choice")
+# Getting the msg box from whatsapp
 
 while True:
 	inp = int(input('Input type of msg: '))
-	print('sendig this msg: ',chooseMsg(inp))
-	# for i in range(count):
-	print('sendig this msg: ',chooseMsg(inp))
-	msg_box.send_keys(chooseMsg(inp))
+	print('sendig this msg: ',getMsg(inp))
+	msg_box.send_keys(getMsg(inp))
 	# driver.find_element_by_class_name('_3M-N-').click()
 	
-	q = input("Again ? y/n: ")
+	q = input("Again ?: ")
 	if q=='N' or q=='n':
 		break
